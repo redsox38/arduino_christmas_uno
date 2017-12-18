@@ -22,6 +22,7 @@
 SoftwareSerial BTSerial(HC_05_TXD_ARDUINO_RXD, HC_05_RXD_ARDUINO_TXD); // RX | TX
  
 int relayLock;
+int flash_ct;
 
 void setup() 
 { 
@@ -68,23 +69,30 @@ void loop()
             if  (c == '1') {
               for (i = MIN_RELAY_PIN; i <= MAX_RELAY_PIN; i++) {
                 digitalWrite(i, HIGH);
-                delay(400);
+                delay(500);
                 digitalWrite(i + 1, HIGH);
-                delay(100);
+                delay(200);
                 digitalWrite(i, LOW);
               }              
             } else if (c == '2') {
               for (i = MIN_RELAY_PIN; i <= MAX_RELAY_PIN; i++) {
                 digitalWrite(i, HIGH);
-                delay(250);
+                delay(400);
                 digitalWrite(i, LOW);
               }
               for (i = MAX_RELAY_PIN; i >= MIN_RELAY_PIN; i--) {
                 digitalWrite(i, HIGH);
-                delay(500);
+                delay(700);
                 digitalWrite(i, LOW);
               }              
-            }
+            } else if (c == '3') {
+               for (i = 0; i < flash_ct; i++) {
+                 PORTD = B00111111;
+                 delay(200)
+                 PORTD = B00000000;
+                 delay(200);
+               }
+            }           
             digitalWrite(13, LOW);
             relayLock = 0;
         }
